@@ -92,6 +92,7 @@ while my_game:
 		x -= speed
 
 		Left = True
+		print(Left)
 		Right = False
 
 	# Движение вправо
