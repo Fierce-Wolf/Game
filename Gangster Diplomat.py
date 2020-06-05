@@ -87,21 +87,21 @@ while my_game:
 			my_game = False
 
 	keys = pygame.key.get_pressed()
+	# Движение влево
+	if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and x > 5:
+		x -= speed
+
+		Left = True
+		Right = False
+
+	# Движение вправо
+	if (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and x < (500 - width - 5):
+		x += speed
+
+		Left = False
+		Right = True
 
 	if not(isJump):	# Если игрок не прыгнул
-		# Движение влево
-		if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and x > 5:
-			x -= speed
-
-			Left = True
-			Right = False
-
-	    # Движение вправо
-		elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and x < (500 - width - 5):
-			x += speed
-
-			Left = False
-			Right = True
 
 	   	# Прыжок
 		if keys[pygame.K_SPACE]:
