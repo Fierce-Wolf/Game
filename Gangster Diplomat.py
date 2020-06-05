@@ -104,7 +104,7 @@ while my_game:
 			Right = True
 
 	   	# Прыжок
-		elif keys[pygame.K_SPACE]:
+		if keys[pygame.K_SPACE]:
 	   		isJump = True
 
 	   	# Если игрок не движется
