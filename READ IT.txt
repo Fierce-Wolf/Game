@@ -1,0 +1,7 @@
+There are pictures of Donald trump here.
+No policy.
+
+Just in a video tutorial on pygame, 
+the author used these sprites. 
+
+Later I will change these images to other ones.
