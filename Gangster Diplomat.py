@@ -2,12 +2,12 @@ import pygame
 
 pygame.init()
 
-win = pygame.display.set_mode((500, 500))  # Создаем окно
-pygame.display.set_caption('Gangster Diplomat')  # Даём название приложению
+win = pygame.display.set_mode((500, 500))  # Create a window
+pygame.display.set_caption('Gangster Diplomat')  # Give name of the application
 
-# Подгружаем спрайты:
+# Loading sprites:
 
-# Спрайты ходьбы вправо
+# Sprites walk to right
 walkRight = [
 	pygame.image.load('right_1.png'), 
 	pygame.image.load('right_2.png'), 
@@ -16,7 +16,7 @@ walkRight = [
 	pygame.image.load('right_5.png')
 ]
 
-# Спрайты ходьбы влево
+# Sprites walk to left
 walkLeft = [
 	pygame.image.load('left_1.png'), 
 	pygame.image.load('left_2.png'), 
@@ -25,25 +25,25 @@ walkLeft = [
 	pygame.image.load('left_5.png')
 ]
 
-bg = pygame.image.load('bg.jpg')
+bg = pygame.image.load('bg.jpg')	# Background
 
-# Здесь хранится спрайт игрока, стоящего на месте
+# This is where the sprite of the player standing still is stored
 playerStand = pygame.image.load('idle.png')	
 
-#  НАЧАЛЬНЫЕ КООРДИНАТЫ ИГРОКА
+# INITIAL COORDINATES OF PLAYER
 x = 50
 y = 425
 
-# Параметры игрока
+# Player parameters
 width = 60  # Ширина
 height = 71  # Высота
 speed = 5  # Скорость
 
-# Параметры физики игры
-isJump = False	# Статус прыжка (игрук прыгнул или НЕ прыгнул)
-jumpCount = 10 # От этой переменной зависит высота прыжка
+# Game physics parameters
+isJump = False	# Jump status (the player jumped or DIDN't jump)
+jumpCount = 10 # This variable determines the height of the jump
 
-# Для анимации объектов: 
+# For animating objects:
 Left = False
 Right = False
 animCount = 0
@@ -51,12 +51,12 @@ animCount = 0
 clock = pygame.time.Clock()
 
 def draw_window():
-	'''Это функция перерисовывает о обновляет игровое окно
-	Во время каждой итерации игрового цикла
+	'''This function redraws and updates the game window
+	During each iteration of the game cycle
 	'''
-	win.blit(bg, (0, 0)) # Отображаем фоновый рисунак на нашем окне
+	win.blit(bg, (0, 0)) # Displaying the background image on our window
 	
-	# Создаем анимацию игры
+	# Create the animation of the game
 	global animCount
 	if (animCount + 1) >= 25:
 		animCount = 0
@@ -87,60 +87,58 @@ while my_game:
 			my_game = False
 
 	keys = pygame.key.get_pressed()
-	# Движение влево
+	# Move left
 	if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and x > 5:
 		x -= speed
 
 		Left = True
-		print(Left)
 		Right = False
 
-	# Движение вправо
+	# Move right
 	if (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and x < (500 - width - 5):
 		x += speed
 
 		Left = False
 		Right = True
 
-	if not(isJump):	# Если игрок не прыгнул
+	if not(isJump):	# If player didn't jump
 
-	   	# Прыжок
+	   	# jump
 		if keys[pygame.K_SPACE]:
 	   		isJump = True
 
-	   	# Если игрок не движется
+	   	# if player doesn't move
 		else:
 	   		Left = False
 	   		Right = False
 	   		animCount = 0
 
-	# Если игрок прыгнул
+	# If player jump
 	else:
-		# Создаем физику прыжка
+		# Create the physics of jump
 		if jumpCount >= -10:
 
-			# ↓ Этот оператор нужен для того, чтобы игрок опускался вниз
-			# после подъема вверх
+			# ↓ This operator is necessary for the player to go down
+			# after climbing up
 			if jumpCount < 0:
 				y += (jumpCount ** 2) / 2
 			else:
-				# Поднимаем игрока вверх
+				# Raising the player up
 				y -= (jumpCount ** 2) / 2
 
 			# Уменьшаем еденицу прыжка
 			jumpCount -= 1
 
-			# Таким образом игрок поднимется на одинаковое кол-во едениц
-			# вверх и вниз => вверх = вниз
+			# This way the player will go up and down 
+			# the same number of units
+			# => вверх = вниз
 
-		# Прыжок 'окончен'
+		# Jump 'over'
 		else:
-			# Возвращаем переменной isJump первоначальное значение,
-			# чтобы юзер мог снова нажимать на клавиши и перемещаться
+			# Returning the isjump variable to its original value,
 			isJump = False
 
-			# Возвращаем переменной jumpCount старое значение едениц
-			# высоты прыжка
+			# Returning the old value to the jumpcount variable
 			jumpCount = 10
 
 	draw_window()
