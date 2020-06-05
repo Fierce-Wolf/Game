@@ -1,4 +1,4 @@
-There are pictures of Donald trump here.
+There are pictures of Donald Тrump here.
 No policy.
 
 Just in a video tutorial on pygame, 
