@@ -54,10 +54,10 @@ def draw_window():
 	'''This function redraws and updates the game window
 	During each iteration of the game cycle
 	'''
+	global animCount
 	win.blit(bg, (0, 0)) # Displaying the background image on our window
 	
 	# Create the animation of the game
-	global animCount
 	if (animCount + 1) >= 25:
 		animCount = 0
 	
