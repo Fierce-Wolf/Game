@@ -50,16 +50,25 @@ animCount = 0
 
 clock = pygame.time.Clock()
 
+
 def draw_window():
 	'''This function redraws and updates the game window
 	During each iteration of the game cycle
 	'''
 	global animCount
+	global isJump
+	global jumpCount
+	global x
+	global y
+
 	win.blit(bg, (0, 0)) # Displaying the background image on our window
 	
+	jumping()
+
 	# Create the animation of the game
 	if (animCount + 1) >= 25:
 		animCount = 0
+
 	
 	if Left:
 		win.blit(walkLeft[animCount // 5], (x, y))
@@ -70,8 +79,23 @@ def draw_window():
 		animCount += 1
 	else:
 		win.blit(playerStand, (x, y))
-    
+
 	pygame.display.update()  # Обновляем окно игры
+	isJump = False
+
+
+def jumping():
+	'''Jump function'''
+	global jumpCount
+	global isJump
+	global y
+
+	if isJump:
+		y += jumpCount
+	else:
+		y -= jumpCount
+
+
 
 # Создаем игровой цикл
 my_game = True
@@ -95,51 +119,19 @@ while my_game:
 		Right = False
 
 	# Move right
-	if (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and x < (500 - width - 5):
+	elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and x < (500 - width - 5):
 		x += speed
 
 		Left = False
 		Right = True
 
-	if not(isJump):	# If player didn't jump
-
-	   	# jump
-		if keys[pygame.K_SPACE]:
-	   		isJump = True
-
-	   	# if player doesn't move
-		else:
-	   		Left = False
-	   		Right = False
-	   		animCount = 0
-
-	# If player jump
 	else:
-		# Create the physics of jump
-		if jumpCount >= -10:
+		Left = False
+		Right = False
 
-			# ↓ This operator is necessary for the player to go down
-			# after climbing up
-			if jumpCount < 0:
-				y += (jumpCount ** 2) / 2
-			else:
-				# Raising the player up
-				y -= (jumpCount ** 2) / 2
 
-			# Уменьшаем еденицу прыжка
-			jumpCount -= 1
-
-			# This way the player will go up and down 
-			# the same number of units
-			# => вверх = вниз
-
-		# Jump 'over'
-		else:
-			# Returning the isjump variable to its original value,
-			isJump = False
-
-			# Returning the old value to the jumpcount variable
-			jumpCount = 10
+	if keys[pygame.K_SPACE]:
+		isJump = True
 
 	draw_window()
 
